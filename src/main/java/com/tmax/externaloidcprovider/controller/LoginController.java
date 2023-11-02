@@ -32,7 +32,7 @@ public class LoginController {
         String client_id = loginForm.getClient_id();
         String execution = loginForm.getExecution();
         String state = loginForm.getState();
-        String code = loginForm.getName();
+        String code = loginForm.getName(); // 임시로 유저 이메일을 담아놓음
 
         if(StringUtils.isEmpty(state)){
             System.out.println("2차 인증 로그인");
