@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Initech Login</title>
+</head>
+<body>
+<h1> 아무튼 Initech 로그인 화면임 </h1>
+<div>
+    <form action="/login"  method="post">
+        <div>
+            <label for="name">이름 : </label>
+            <input id="name" name="name" placeholder="이름를 입력해주세요">
+        </div>
+        <div>
+            <label for="password">비밀번호 : </label>
+            <input id="password" name="password" placeholder="비밀번호를 입력해주세요">
+        </div>
+        <div>
+<!--            <label for="session_code">session_code : </label>-->
+            <input id="session_code" name="session_code" th:value="${session_code}" hidden>
+        </div>
+        <div>
+<!--            <label for="tab_id">tab_id : </label>-->
+            <input id="tab_id" name="tab_id" th:value="${tab_id}" hidden>
+        </div>
+        <div>
+<!--            <label for="client_id">client_id : </label>-->
+            <input id="client_id" name="client_id" th:value="${client_id}" hidden>
+        </div>
+        <div>
+<!--            <label for="client_secret">client_secret : </label>-->
+            <input id="client_secret" name="client_secret" th:value="${client_secret}" hidden>
+        </div>
+        <div>
+<!--            <label for="execution">execution : </label>-->
+            <input id="execution" name="execution" th:value="${execution}" hidden>
+        </div>
+        <div>
+<!--            <label for="scope">scope : </label>-->
+            <input id="scope" name="scope" th:value="${scope}" hidden>
+        </div>
+        <div>
+<!--            <label for="state">state : </label>-->
+            <input id="state" name="state" th:value="${state}" hidden>
+        </div>
+        <div>
+<!--            <label for="response_type">response_type : </label>-->
+            <input id="response_type" name="response_type" th:value="${response_type}" hidden>
+        </div>
+        <div>
+<!--            <label for="redirect_uri">redirect_uri : </label>-->
+            <input id="redirect_uri" name="redirect_uri" th:value="${redirect_uri}" hidden>
+        </div>
+        <button type="submit">전송하기</button>
+    </form>
+</div>
+</body>
+</html>
