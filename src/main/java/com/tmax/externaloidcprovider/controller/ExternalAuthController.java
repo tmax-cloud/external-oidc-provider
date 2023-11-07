@@ -28,6 +28,14 @@ public class ExternalAuthController {
         model.addAttribute("state",state);
         model.addAttribute("response_type",response_type);
         model.addAttribute("redirect_uri",redirect_uri);
+
+        //TODO : initech 에서 제공해주는 sdk 가이드 대로 구현하면 될듯?
+
+
+//        return "redirect:"+hyperauthUrl+"/auth/realms/"+realm+"/broker/initech/endpoint?" +
+//                "&state="+state+
+//                "&code="+code;
+
         return "externalauth";
     }
 }
