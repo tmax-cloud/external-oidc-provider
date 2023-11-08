@@ -45,6 +45,8 @@
       - ![img_1.png](img/initech_detail.png)
       - client_id, client_secret은 아무거나 넣어놓은 상태
       - 어차피 본 프로젝트에서 발급한 값이라는 가정이고 현재 검증로직 추가 안함
+  - Initech 연동 아키텍쳐
+    - ![img.png](img/total_architecture.png)
   
   ### 2차 인증
   - Hyperauth 로그인 화면에서 이메일(아이디) 만 입력한 후 인증을 Initech 화면에서 로그인을 거치면 최종 통과되도록 설계
