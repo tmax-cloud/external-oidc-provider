@@ -18,7 +18,6 @@ public class UserController {
 
     @GetMapping
     public UserForm user(@RequestParam(required = false) String access_token){
-        System.out.println("UserController.user");
         System.out.println("access_token = " + access_token);
         UserForm userForm = new UserForm();
         User user = userRepository.findUserByEmail(access_token);
