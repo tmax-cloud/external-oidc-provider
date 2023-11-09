@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-oidc-provider
+  namespace: hyperauth
+  labels:
+    app: external-oidc-provider
+  annotations:
+#    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+#    traefik.ingress.kubernetes.io/service.sticky.cookie.name: hyperauth
+#    traefik.ingress.kubernetes.io/service.sticky.cookie.secure: "true"
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8081
+    - name: https
+      port: 443
+      targetPort: 8443
+  selector:
+    app: external-oidc-provider
+  type: ClusterIP   # ClusterIP or LoadBalancer or NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-oidc-provider
+  namespace: hyperauth
+  labels:
+    app: external-oidc-provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: external-oidc-provider
+  template:
+    metadata:
+      labels:
+        app: external-oidc-provider
+    spec:
+      volumes:
+#        - name: ssl
+#          secret:
+#            secretName: external-oidc-provider-https-secret
+      containers:
+        - name: hyperauth
+          image: tmaxcloudck/external-oidc-provider:latest  #latest
+          env:
+            - name: TZ
+              value: Asia/Seoul
+          ports:
+            - name: http
+              containerPort: 8081
+#            - name: https
+#              containerPort: 8443
+          volumeMounts:
+#            - name: ssl
+#              mountPath: /etc/x509/https
+          readinessProbe:
+#            httpGet:
+#              path: /auth/realms/master
+#              port: 8080
+          resources:
+            limits:
+              cpu: "500M"
+              memory: "500Mi"
+            requests:
+              cpu: "500M"
+              memory: "500Mi"
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: external-oidc-provider
+  namespace: hyperauth
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+spec:
+  tls:
+    - hosts:
+        - tmax.initech.com
+#      secretName: hyperauth-https-secret
+  rules:
+    - host: tmax.initech.com
+      http:
+        paths:
+          - backend:
+              serviceName: external-oidc-provider
+              servicePort: 8080
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: external-oidc-provider-certificate
+  namespace: hyperauth
+spec:
+  secretName: external-oidc-provider-https-secret
+  duration: 8760h # 360d=1y
+  renewBefore: 720h # 30d
+  isCA: false
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  ipAddresses:
+#    - 192.168.9.12
+  dnsNames:
+    - tmax.initech.com
+    - tmax-cloud
+  issuerRef:
+    kind: ClusterIssuer
+    group: cert-manager.io
+    name: tmaxcloud-issuer
