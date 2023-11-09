@@ -9,9 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExternalAuthController {
 
     @GetMapping(value = "/externalauth")
-    public ModelAndView auth(
-                       @RequestParam(required = false) String state,
-                       @RequestParam(required = false) String redirect_uri) {
+    public ModelAndView auth(@RequestParam(required = false) String state, @RequestParam(required = false) String redirect_uri) {
         System.out.println("state = " + state + ", redirect_uri = " + redirect_uri);
         ModelAndView mav = new ModelAndView();
         if(state != null) mav.addObject("state", state);

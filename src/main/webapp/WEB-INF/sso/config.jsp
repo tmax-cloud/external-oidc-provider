@@ -22,14 +22,14 @@
 	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
 	private String NLS_LOGOUT_URL= NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
 	private String NLS_ERROR_URL = NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
-	private static String ND_URL1 = "http://demo.initech.com:5480";
+	private static String ND_URL1 = "https://demo.initech.com:13443/rpc2";
 	//private static String ND_URL2 = "http://ndtest.initech.com:5481";
 	private static Vector PROVIDER_LIST = new Vector();
 	private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
 	// ?? ?? (ID/PW ?? : 1, ??? : 3)
 	private String TOA = "1";
 	private String SSO_DOMAIN = ".initech.com";
-	private static final int timeout = 3000000;
+	private static final int timeout = 1500000;
 	private static NXContext context = null;
 	static{
 
