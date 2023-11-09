@@ -20,6 +20,10 @@ node {
         sh "git pull origin ${params.buildBranch}"
     }
 
+    stage('Project build'){
+        sh "sudo ./mvnw clean package"
+    }
+
     stage('Dockerfile image build & push'){
         sh "sudo docker build --tag tmaxcloudck/external-oidc-provider:${imageTag} ."
         sh "sudo docker tag tmaxcloudck/external-oidc-provider:${imageTag} tmaxcloudck/external-oidc-provider:latest"
