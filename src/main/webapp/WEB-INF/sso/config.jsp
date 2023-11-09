@@ -113,4 +113,15 @@
 		userEmail =  userInfo.getEmail();
 		return userEmail;
 	}
+
+	public boolean CheckExistUser(String userid){
+		NXUserAPI userAPI = new NXUserAPI(context);
+		boolean flag = false;
+		try {
+			flag = userAPI.existUser(userid);
+		} catch (APIException e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
 %>

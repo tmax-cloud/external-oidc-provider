@@ -31,8 +31,10 @@
 		}
 		System.out.println("SSO 인증 성공!!");
 		//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
-		String email = getUserEmail(sso_id);
-//		String email = "taegeon_woo@tmax.co.kr";
+		boolean ssoCheck = CheckExistUser(sso_id);
+		System.out.println("*================== ["+sso_id +"exist ] : " + ssoCheck );
+//		String email = getUserEmail(sso_id);
+		String email = "taegeon_woo@tmax.co.kr";
 		System.out.println("email : " + email);
 
 		String state = (request.getAttribute("state")!= null)?  (String)request.getAttribute("state") : CookieManager.getCookieValue("hyperauth_state",request);
