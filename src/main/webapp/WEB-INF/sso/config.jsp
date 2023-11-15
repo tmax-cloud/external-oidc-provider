@@ -9,30 +9,37 @@
 	/**[INISAFE NEXESS JAVA AGENT]**********************************************************************
 	/***[SERVICE CONFIGURATION]***********************************************************************/
 	private String SERVICE_NAME = "tmax";
-	private String SERVER_URL 	= "http://tmax.initech.com";
-	private String SERVER_PORT = "8081";
+	private String SERVER_URL 	= System.getenv("SERVER_URL");
+//			"http://tmax.initech.com";
+	private String SERVER_PORT = System.getenv("SERVER_PORT");
+//		"8081";
 	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/externalauth";
 
 	//Custom Login Url
 	//private String custom_url = SERVER_URL + ":" + SERVER_PORT + "/agent/sso/loginFormPageCoustom.jsp";
 	private String custom_url = "";
 	/***[SSO CONFIGURATION]**]***********************************************************************/
-	private String NLS_URL 		 = "https://demo.initech.com";
-	private String NLS_PORT 	 = "13443";
+	private static String NLS_URL 		 = System.getenv("NLS_URL");
+//			"https://demo.initech.com";
+	private static String NLS_PORT 	 = System.getenv("NLS_PORT");
+//		"13443";
 	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
 	private String NLS_LOGOUT_URL= NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
 	private String NLS_ERROR_URL = NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
-	private static String ND_URL1 = "https://demo.initech.com:13443/rpc2";
+	private static String ND_URL1 = System.getenv("ND_URL");
+//			"https://demo.initech.com:13443/rpc2";
+
 	//private static String ND_URL2 = "http://ndtest.initech.com:5481";
 	private static Vector PROVIDER_LIST = new Vector();
 	private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
+
 	// ?? ?? (ID/PW ?? : 1, ??? : 3)
 	private String TOA = "1";
-	private String SSO_DOMAIN = ".initech.com";
-	private static final int timeout = 1500000;
+	private String SSO_DOMAIN = System.getenv("SSO_DOMAIN") == null ? ".initech.com" : System.getenv("SSO_DOMAIN");
+	private static final int timeout = System.getenv("TIME_OUT") == null ? 1500000 : Integer.valueOf(System.getenv("TIME_OUT"));
 	private static NXContext context = null;
 	static{
-
+		System.out.println("Initialize Initech Provider Configuration...");
 		List<String> serverurlList = new ArrayList<String>();
 		serverurlList.add(ND_URL1);
 
