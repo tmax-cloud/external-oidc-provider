@@ -2,9 +2,17 @@ package com.tmax.externaloidcprovider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class ExternalOidcProviderApplication {
+public class ExternalOidcProviderApplication extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(ExternalOidcProviderApplication.class);
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(ExternalOidcProviderApplication.class, args);
     }
