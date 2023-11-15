@@ -2,6 +2,8 @@
 <%@ include file="./config.jsp" %>
 
 <%
+
+	System.out.println("*================== [login_exec.jsp]  start!!");
 	//1.SSO ID 수신
 	String sso_id = getSsoId(request);
 	System.out.println("*================== [login_exec.jsp]  sso_id = "+sso_id);
@@ -10,7 +12,8 @@
 	if (sso_id == null || sso_id.equals("")) {
 		CookieManager.addCookie("hyperauth_state", (String)request.getAttribute("state"), SSO_DOMAIN, response);
 		CookieManager.addCookie("hyperauth_redirect_uri", (String)request.getAttribute("redirect_uri"), SSO_DOMAIN, response);
-		goLoginPage(response); // temp user : 1111 / admin
+		goLoginPage(response); //
+		System.out.println("end of login page");// temp user : 1111 / admin
 		return;
 	} else {
 		//4.쿠키 유효성 확인 :0(정상)
@@ -19,6 +22,7 @@
 
 		if(!retCode.equals("0")){
 			goErrorPage(response, Integer.parseInt(retCode));
+			System.out.println("end of error page");
 			return;
 		}
 		//
