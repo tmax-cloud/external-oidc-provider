@@ -11,5 +11,5 @@ WORKDIR /usr/local/tomcat
 # copy war file to webapps, use as ROOT.war to remove app name in url
 COPY target/external-oidc-provider-0.0.1-SNAPSHOT.war webapps/ROOT.war
 
-# use 8081 port as default port
-EXPOSE 8081
+# use 8080 8443 port as default port
+EXPOSE 8080 8443
