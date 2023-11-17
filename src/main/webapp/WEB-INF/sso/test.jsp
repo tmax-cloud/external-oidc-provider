@@ -14,9 +14,14 @@
     String key1 = request.getAttribute("key1").toString();
     String key2 = request.getAttribute("key2").toString();
 
+    System.out.println("on test.jsp");
     out.println(key1);
     out.println(key2);
+
 %>
+<div>
+    THIS IS TEST PAGE
+</div>
 <div>
     key1 : <%=key1 %>
 </div>

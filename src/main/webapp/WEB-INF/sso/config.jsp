@@ -9,9 +9,8 @@
 	/**[INISAFE NEXESS JAVA AGENT]**********************************************************************
 	/***[SERVICE CONFIGURATION]***********************************************************************/
 	private String SERVICE_NAME = "tmax";
-	private String SERVER_URL 	= "http://tmax.initech.com";
-	private String SERVER_PORT = "8081";
-	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/externalauth";
+	private String SERVER_URL 	= "https://tmax.initech.com";
+	private String ASCP_URL = SERVER_URL + "/externalauth";
 
 	//Custom Login Url
 	//private String custom_url = SERVER_URL + ":" + SERVER_PORT + "/agent/sso/loginFormPageCoustom.jsp";
