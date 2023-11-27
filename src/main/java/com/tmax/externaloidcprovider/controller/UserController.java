@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    private static final Logger logger = LogManager.getLogger(TokenController.class);
+    private static final Logger logger = LogManager.getLogger(UserController.class);
 
     @GetMapping
     public UserForm user(@RequestParam(required = false) String access_token){
@@ -22,6 +22,16 @@ public class UserController {
         UserForm userForm = new UserForm();
         userForm.setId(access_token);
         userForm.setUsername(access_token);
+
+        /* Disable email information.
+         to use this, should disable login with email and enable duplicate email
+         in keycloak realm login setting.
+         */
+        userForm.setEmail("test@test.com");
+        logger.info("userId: " + userForm.getId());
+        logger.info("username: " + userForm.getUsername());
+        logger.info("email: " + userForm.getEmail());
+
         return userForm;
     }
 }
