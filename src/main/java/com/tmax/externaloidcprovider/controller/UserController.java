@@ -1,9 +1,8 @@
 package com.tmax.externaloidcprovider.controller;
 
-import com.tmax.externaloidcprovider.db.User;
-import com.tmax.externaloidcprovider.db.UserRepository;
 import com.tmax.externaloidcprovider.form.UserForm;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,17 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    UserRepository userRepository;
+    private static final Logger logger = LogManager.getLogger(TokenController.class);
 
     @GetMapping
     public UserForm user(@RequestParam(required = false) String access_token){
-        System.out.println("access_token = " + access_token);
+
+        logger.info("access_token: " + access_token);
+
         UserForm userForm = new UserForm();
-//        User user = userRepository.findUserByEmail(access_token);
         userForm.setId(access_token);
         userForm.setUsername(access_token);
-//        userForm.setEmail(access_token); //임시로 email 전달을 위해
         return userForm;
     }
 }
