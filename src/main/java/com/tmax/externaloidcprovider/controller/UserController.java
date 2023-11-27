@@ -1,5 +1,6 @@
 package com.tmax.externaloidcprovider.controller;
 
+import com.tmax.externaloidcprovider.constant.OidcPath;
 import com.tmax.externaloidcprovider.form.UserForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(OidcPath.user)
 public class UserController {
 
     private static final Logger logger = LogManager.getLogger(UserController.class);

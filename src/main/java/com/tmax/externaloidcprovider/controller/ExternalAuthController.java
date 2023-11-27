@@ -1,5 +1,6 @@
 package com.tmax.externaloidcprovider.controller;
 
+import com.tmax.externaloidcprovider.constant.OidcPath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ public class ExternalAuthController {
 
     private static final Logger logger = LogManager.getLogger(ExternalAuthController.class);
 
-    @GetMapping(value = "/externalauth")
+    @GetMapping(value = OidcPath.auth)
     public ModelAndView auth(@RequestParam(required = false) String state, @RequestParam(required = false) String redirect_uri) {
 
         logger.info("state: " + state);
