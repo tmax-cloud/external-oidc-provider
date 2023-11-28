@@ -1,5 +1,6 @@
 HELP.md
 target/
+!target/external-oidc-provider-0.1.war
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

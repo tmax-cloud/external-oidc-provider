@@ -5,50 +5,43 @@
 <%@page import="java.util.List"%>
 <%@ page import="com.initech.eam.base.APIException" %>
 <%@ page import="com.initech.eam.api.*" %>
+<%@ page import="com.tmax.externaloidcprovider.constant.OidcPath" %>
 <%!
 	/**[INISAFE NEXESS JAVA AGENT]**********************************************************************
 	/***[SERVICE CONFIGURATION]***********************************************************************/
-	private String SERVICE_NAME = "tmax";
-	private String SERVER_URL 	= System.getenv("SERVER_URL");
-//			"http://tmax.initech.com";
-	private String SERVER_PORT = System.getenv("SERVER_PORT");
-//		"8081";
-	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/externalauth";
+	private String SERVICE_NAME = System.getenv("SERVICE_NAME"); //"tmax";
+	private String SERVER_URL 	= System.getenv("SERVER_URL"); //"https://tmax.initech.com";
+	private String ASCP_URL = SERVER_URL + OidcPath.auth;
 
 	//Custom Login Url
 	//private String custom_url = SERVER_URL + ":" + SERVER_PORT + "/agent/sso/loginFormPageCoustom.jsp";
 	private String custom_url = "";
 	/***[SSO CONFIGURATION]**]***********************************************************************/
-	private static String NLS_URL 		 = System.getenv("NLS_URL");
-//			"https://demo.initech.com";
-	private static String NLS_PORT 	 = System.getenv("NLS_PORT");
-//		"13443";
+	private String NLS_URL 		 = System.getenv("NLS_URL"); //"https://demo.initech.com";
+	private String NLS_PORT 	 = System.getenv("NLS_PORT"); //"13443";
 	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
 	private String NLS_LOGOUT_URL= NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
 	private String NLS_ERROR_URL = NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
-	private static String ND_URL1 = System.getenv("ND_URL");
-//			"https://demo.initech.com:13443/rpc2";
-
-	//private static String ND_URL2 = "http://ndtest.initech.com:5481";
+	private static String ND_URL1 = System.getenv("ND_URL1");//"https://demo.initech.com:13443/rpc2";
+	private static String ND_URL2 =  System.getenv("ND_URL2"); //"http://ndtest.initech.com:5481";
 	private static Vector PROVIDER_LIST = new Vector();
-	private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
-
+	private static final int COOKIE_SESSION_TIME_OUT = 30000;
 	// ?? ?? (ID/PW ?? : 1, ??? : 3)
 	private String TOA = "1";
-	private String SSO_DOMAIN = System.getenv("SSO_DOMAIN") == null ? ".initech.com" : System.getenv("SSO_DOMAIN");
-	private static final int timeout = System.getenv("TIME_OUT") == null ? 1500000 : Integer.valueOf(System.getenv("TIME_OUT"));
+	private String SSO_DOMAIN = ".initech.com";
+	private static final int timeout = 15000;
 	private static NXContext context = null;
+  
 	static{
-		System.out.println("Initialize Initech Provider Configuration...");
-		List<String> serverurlList = new ArrayList<String>();
-		serverurlList.add(ND_URL1);
 
-		context = new NXContext(serverurlList,timeout);
+		List<String> serverUrlList = new ArrayList<String>();
+		serverUrlList.add(ND_URL1);
+
+		context = new NXContext(serverUrlList,timeout);
 		CookieManager.setEncStatus(true);
 //		CookieManager.setSameSiteStatus(false);
 
-		PROVIDER_LIST.add("demo.initech.com");
-
+		PROVIDER_LIST.add(System.getenv("NLS_URL").substring(8)); //remove https prefix
 		SECode.setCookiePadding("_V42");
 	}
 	public String getSsoId(HttpServletRequest request) {
@@ -71,7 +64,7 @@
 	public String getEamSessionCheckAndAgentVaild(HttpServletRequest request,HttpServletResponse response){
 		String retCode = "";
 		try {
-			retCode = CookieManager.verifyNexessCookieAndAgentVaild(request, response, 10, COOKIE_SESSTION_TIME_OUT, PROVIDER_LIST, SERVER_URL, context);
+			retCode = CookieManager.verifyNexessCookieAndAgentVaild(request, response, 10, COOKIE_SESSION_TIME_OUT, PROVIDER_LIST, SERVER_URL, context);
 		} catch(Exception npe) {
 			npe.printStackTrace();
 		}
@@ -82,7 +75,7 @@
 	public String getEamSessionCheck(HttpServletRequest request,HttpServletResponse response){
 		String retCode = "";
 		try {
-			retCode = CookieManager.verifyNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT,PROVIDER_LIST);
+			retCode = CookieManager.verifyNexessCookie(request, response, 10, COOKIE_SESSION_TIME_OUT,PROVIDER_LIST);
 		} catch(Exception npe) {
 			npe.printStackTrace();
 		}
