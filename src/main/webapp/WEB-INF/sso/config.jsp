@@ -31,6 +31,7 @@
 	private String SSO_DOMAIN = ".initech.com";
 	private static final int timeout = 15000;
 	private static NXContext context = null;
+  
 	static{
 
 		List<String> serverUrlList = new ArrayList<String>();
