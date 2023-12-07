@@ -28,7 +28,7 @@ public class UserController {
          to use this, should disable login with email and enable duplicate email
          in keycloak realm login setting.
          */
-        userForm.setEmail("test@test.com");
+
         logger.info("userId: " + userForm.getId());
         logger.info("username: " + userForm.getUsername());
         logger.info("email: " + userForm.getEmail());
