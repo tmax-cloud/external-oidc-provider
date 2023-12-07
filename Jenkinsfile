@@ -2,7 +2,7 @@ node {
     def gitHubBaseAddress = "github.com"
     def gitExternalOidcProviderAddress = "${gitHubBaseAddress}/tmax-cloud/external-oidc-provider.git"
     def buildDir = "/var/lib/jenkins/workspace/external-oidc-provider"
-    def version = "${params.majorVersion}.${params.minorVersion}.${params.tinyVersion}.${params.hotfixVersion}"
+    def version = "${params.majorVersion}.${params.minorVersion}.${params.tinyVersion}"
     def imageTag = "b${version}"
     def globalVersion = "external-oidc-provider:b${version}"
     def githubUserName = "ck-jenkins"
