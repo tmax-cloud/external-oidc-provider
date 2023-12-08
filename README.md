@@ -65,3 +65,66 @@
   ### 토큰 Claim 추가 호출용 기능
   - Hyperauth에서 특정 Client로 로그인시 토큰 Claim을 추가 발급하기 위해 외부 API를 호출하는 경우 사용
   - ClaimController 참고
+  
+- ## 설치 가이드  
+  ### 필수 요건
+  - 본 프로젝트는 HyperAuth 와 Initech SSO 로그인 시스템을 연동해주는 Proxy Server 로 동작하며, Initech SSO Login 시스템이 구축되어있어야 한다.
+  - HyperAuth Image b1.1.2.8 이후부터 연동 가능 (tmaxcloudck/hyperauth/b1.1.2.8)
+  ### K8S 환경 설치
+    [external-oidc-provider.yaml](manifest/k8s/external-oidc-provider.yaml) 본 yaml 파일 적용하여 k8s에 배포
+    1. Deployment env 추가
+       ### Deployment.yaml
+       ```yaml
+        env:
+        - name: SERVER_URL  # 사용할 도메인명을 HTTPS와 함께 지정한다
+          value: "https://tmax.initech.com"
+        - name: NLS_URL     #  Initech SSO Login 시스템의 Domain을 HTTPS와 함께 지정한다
+          value: "https://demo.initech.com"
+        - name: NLS_PORT    # Initech SSO Login의 Port를 작성해주어야 하는 경우 지정한다. (optional)
+          value: "13443"
+        - name: ND_URL1     #  SSO 데몬 서버가 존재하는 경우 HTTPS와 함께 지정한다 (optional) 
+          value: "https://demo.initech.com:13443/rpc2"
+        - name: ND_URL2     #  SSO 데몬 서버가 이중화 되어있는 경우 HTTPS와 함께 지정한다 (optional) 
+          value: "https://ndtest.initech.com:5481"
+        - name: SSO_DOMAIN     # Initech SSO 시스템과 본 프로젝트의 공통 도메인을 지정한다
+          value: ".initech.com"
+        ```
+     3. Certificate / Ingress 에 Domain 추가
+        ### Ingress.yaml
+        ```yaml
+        spec:
+          ingressClassName : tmax-cloud
+          tls:
+            - hosts:
+                - tmax.initech.com  # 본 프로젝트의 도메인 지정
+              secretName: external-oidc-provider-https-secret
+          rules:
+            - host: tmax.initech.com  # 본 프로젝트의 도메인 지정
+              http:
+                paths:
+                  - backend:
+                      serviceName: external-oidc-provider
+                      servicePort: 8080
+        ```
+        ### Certificate.yaml
+        ```yaml
+          ...
+          spec:
+            secretName: external-oidc-provider-https-secret
+            duration: 8760h # 360d=1y
+            renewBefore: 720h # 30d
+            isCA: false
+            usages:
+              - digital signature
+              - key encipherment
+              - server auth
+              - client auth
+            #  ipAddresses:
+            #    - 192.168.9.12
+            dnsNames:
+              - tmax.initech.com     # 본 프로젝트의 도메인 지정
+              - tmax-cloud          
+            ...
+          ```
+     4. HyperAuth 설치  
+        [install-hyperauth](https://github.com/tmax-cloud/install-hyperauth)
