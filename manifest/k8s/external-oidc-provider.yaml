@@ -46,12 +46,10 @@ spec:
             secretName: external-oidc-provider-https-secret
       containers:
         - name: hyperauth
-          image: 192.168.9.12:5000/external-oidc-provider:0.5.1 #latest
+          image: tmaxcloudck/external-oidc-provider:latest #latest
           env:
             - name: TZ
               value: Asia/Seoul
-            - name: SERVICE_NAME
-              value: "tmax"
             - name: SERVER_URL  # Set Https Protocols
               value: "https://tmax.initech.com"
             - name: NLS_URL     # Set with Https Protocols
@@ -62,6 +60,8 @@ spec:
               value: "https://demo.initech.com:13443/rpc2"
             - name: ND_URL2     # Set Https Protocols
               value: "https://ndtest.initech.com:5481"
+            - name: SSO_DOMAIN     # Set Https Protocols
+              value: ".initech.com"
           ports:
             - name: http
               containerPort: 8080
@@ -70,10 +70,6 @@ spec:
           volumeMounts:
             - name: ssl
               mountPath: /etc/x509/https
-          readinessProbe:
-#            httpGet:
-#              path: /auth/realms/master
-#              port: 8080
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress

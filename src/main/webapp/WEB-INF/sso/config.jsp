@@ -9,7 +9,6 @@
 <%!
 	/**[INISAFE NEXESS JAVA AGENT]**********************************************************************
 	/***[SERVICE CONFIGURATION]***********************************************************************/
-	private String SERVICE_NAME = System.getenv("SERVICE_NAME"); //"tmax";
 	private String SERVER_URL 	= System.getenv("SERVER_URL"); //"https://tmax.initech.com";
 	private String ASCP_URL = SERVER_URL + OidcPath.auth;
 
@@ -19,23 +18,35 @@
 	/***[SSO CONFIGURATION]**]***********************************************************************/
 	private String NLS_URL 		 = System.getenv("NLS_URL"); //"https://demo.initech.com";
 	private String NLS_PORT 	 = System.getenv("NLS_PORT"); //"13443";
-	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
-	private String NLS_LOGOUT_URL= NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
-	private String NLS_ERROR_URL = NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
+	private String NLS_LOGIN_URL =
+			NLS_PORT.isEmpty() ? NLS_URL + "/nls3/cookieLogin.jsp"
+			: NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
+	private String NLS_LOGOUT_URL=
+			NLS_PORT.isEmpty() ? NLS_URL + "/nls3/NCLogout.jsp"
+			: NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
+	private String NLS_ERROR_URL =
+			NLS_PORT.isEmpty() ? NLS_URL + "/nls3/error.jsp"
+			: NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
+
 	private static String ND_URL1 = System.getenv("ND_URL1");//"https://demo.initech.com:13443/rpc2";
 	private static String ND_URL2 =  System.getenv("ND_URL2"); //"http://ndtest.initech.com:5481";
 	private static Vector PROVIDER_LIST = new Vector();
 	private static final int COOKIE_SESSION_TIME_OUT = 30000;
 	// ?? ?? (ID/PW ?? : 1, ??? : 3)
 	private String TOA = "1";
-	private String SSO_DOMAIN = ".initech.com";
+	private String SSO_DOMAIN = System.getenv("SSO_DOMAIN"); //".initech.com";
 	private static final int timeout = 15000;
 	private static NXContext context = null;
   
 	static{
 
 		List<String> serverUrlList = new ArrayList<String>();
-		serverUrlList.add(ND_URL1);
+		if(ND_URL1 != null && !ND_URL1.equals("")){
+			serverUrlList.add(ND_URL1);
+		}
+		if(ND_URL2 != null && !ND_URL2.equals("")){
+			serverUrlList.add(ND_URL2);
+		}
 
 		context = new NXContext(serverUrlList,timeout);
 		CookieManager.setEncStatus(true);
