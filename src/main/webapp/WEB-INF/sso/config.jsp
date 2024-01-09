@@ -18,12 +18,14 @@
 	/***[SSO CONFIGURATION]**]***********************************************************************/
 	private String NLS_URL 		 = System.getenv("NLS_URL"); //"https://demo.initech.com";
 	private String NLS_PORT 	 = System.getenv("NLS_PORT"); //"13443";
+	private String NLS_LOGIN_URN = System.getenv("NLS_LOGIN_URN"); //"/nls3/cookieLogin.jsp";
 	private String NLS_LOGIN_URL =
-			NLS_PORT.isEmpty() ? NLS_URL + "/nls3/cookieLogin.jsp"
-			: NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
+			NLS_PORT.isEmpty() ? NLS_URL + NLS_LOGIN_URN
+			: NLS_URL + ":" + NLS_PORT + NLS_LOGIN_URN;
+	private String NLS_LOGOUT_URN = System.getenv("NLS_LOGOUT_URN"); //"/nls3/NCLogout.jsp";
 	private String NLS_LOGOUT_URL=
-			NLS_PORT.isEmpty() ? NLS_URL + "/nls3/NCLogout.jsp"
-			: NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
+			NLS_PORT.isEmpty() ? NLS_URL + NLS_LOGOUT_URN
+			: NLS_URL + ":" + NLS_PORT + NLS_LOGOUT_URN;
 	private String NLS_ERROR_URL =
 			NLS_PORT.isEmpty() ? NLS_URL + "/nls3/error.jsp"
 			: NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";

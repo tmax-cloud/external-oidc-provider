@@ -56,6 +56,10 @@ spec:
               value: "https://demo.initech.com"
             - name: NLS_PORT
               value: "13443"
+            - name: NLS_LOGIN_URN
+              value: "/nls3/clientLogin.jsp"
+            - name: NLS_LOGOUT_URN
+              value: "/nls3/NCLogout.jsp"
             - name: ND_URL1     # Set Https Protocols
               value: "https://demo.initech.com:13443/rpc2"
             - name: ND_URL2     # Set Https Protocols
