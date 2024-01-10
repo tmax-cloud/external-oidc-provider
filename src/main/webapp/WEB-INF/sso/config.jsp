@@ -55,7 +55,7 @@
 //		CookieManager.setSameSiteStatus(false);
 
 		PROVIDER_LIST.add(System.getenv("NLS_URL").substring(8)); //remove https prefix
-		SECode.setCookiePadding("_V42");
+//		SECode.setCookiePadding("_V42");
 	}
 	public String getSsoId(HttpServletRequest request) {
 		String sso_id = null;
