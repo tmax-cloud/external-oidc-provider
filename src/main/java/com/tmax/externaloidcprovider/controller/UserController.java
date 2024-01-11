@@ -23,6 +23,9 @@ public class UserController {
         UserForm userForm = new UserForm();
         userForm.setId(access_token);
         userForm.setUsername(access_token);
+        userForm.setFirstName("tmax");
+        userForm.setLastName("kim");
+
 
         /* Disable email information.
          to use this, should disable login with email and enable duplicate email
