@@ -26,11 +26,11 @@ node {
 
     stage('Dockerfile image build & push'){
         if(type == 'distribution') {
-           sh "sudo docker build --tag tmaxcloudck/external-oidc-provider:${imageTag} ."
-           sh "sudo docker tag tmaxcloudck/external-oidc-provider:${imageTag} tmaxcloudck/external-oidc-provider:latest"
-           sh "sudo docker push tmaxcloudck/external-oidc-provider:${imageTag}"
-           sh "sudo docker push tmaxcloudck/external-oidc-provider:latest"
-           sh "sudo docker rmi tmaxcloudck/external-oidc-provider:${imageTag}"
+           sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:${imageTag} ."
+           sh "sudo docker tag ${imageRegistry}/external-oidc-provider:${imageTag} ${imageRegistry}/external-oidc-provider:latest"
+           sh "sudo docker push ${imageRegistry}/external-oidc-provider:${imageTag}"
+           sh "sudo docker push ${imageRegistry}/external-oidc-provider:latest"
+           sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:${imageTag}"
         } else if(type == 'test'){
                 sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:b${testVersion} ."
                 sh "sudo docker push ${imageRegistry}/external-oidc-provider:b${testVersion}"
