@@ -113,18 +113,15 @@
 		response.sendRedirect(NLS_ERROR_URL + "?errorCode=" + error_code);
 	}
 
-	public String getUserEmail (String userid) { //FIXME
-		String userEmail = null;
+	public NXUserInfo getUserInfo (String userid) {
 		NXUserAPI userAPI = new NXUserAPI(context);
 		NXUserInfo userInfo = null;
 		try{
 			userInfo = userAPI.getUserInfo(userid);
-
 		}catch (APIException e){
 			e.printStackTrace();
 		}
-		userEmail =  userInfo.getEmail();
-		return userEmail;
+		return userInfo;
 	}
 
 	public boolean CheckExistUser(String userid){

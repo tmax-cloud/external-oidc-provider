@@ -1,6 +1,7 @@
 <%@ include file="./config.jsp" %>
 <%@ page import="org.apache.logging.log4j.LogManager" %>
 <%@ page import="org.apache.logging.log4j.Logger" %>
+<%@ page import="com.tmax.externaloidcprovider.global.NXUserRepository" %>
 <%@ page language="java" contentType="text/html;charset=EUC-KR" %>
 <%!
 	private Logger logger = LogManager.getLogger();
@@ -42,11 +43,20 @@
 //		System.out.println("*================== ["+sso_id +"exist ] : " + ssoCheck );
 //		String email = getUserEmail(sso_id);
 
+		try{
+			NXUserInfo userInfo = getUserInfo(sso_id);
+			logger.info("Receive userInfo from demon server.");
+			logger.info("userInfo : {}", userInfo.toString());
+			NXUserRepository.getInstance().addUserInfo(sso_id, userInfo);
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("Failed to get user info from demon server. Skip userinfo setting.");
+		}
 
 		String state = (request.getAttribute("state")!= null)?  (String)request.getAttribute("state") : CookieManager.getCookieValue("hyperauth_state",request);
 		String hyperauth_redirect_uri = (request.getAttribute("redirect_uri")!= null)?  (String)request.getAttribute("redirect_uri") : CookieManager.getCookieValue("hyperauth_redirect_uri",request);
 
-		String code = sso_id; //FIXME
+		String code = sso_id;
 
 		String redirectUri = hyperauth_redirect_uri + "?state=" + state + "&code=" + code;
 		response.sendRedirect(redirectUri);
