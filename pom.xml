@@ -71,6 +71,15 @@
             <version>1.2</version>
         </dependency>
 
+        <!-- initech -->
+        <dependency>
+            <groupId>external</groupId>
+            <artifactId>external-library</artifactId>
+            <version>4.2.1.00_default_01</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/external_v4.2.1.00_default_01.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -87,7 +96,25 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <!-- Include external JARs from the webapp/WEB-INF/lib directory -->
+                    <webResources>
+                        <resource>
+                            <directory>${project.basedir}/src/main/webapp/WEB-INF/lib</directory>
+                            <targetPath>WEB-INF/lib</targetPath>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>
