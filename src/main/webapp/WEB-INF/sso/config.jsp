@@ -23,7 +23,7 @@
 			NLS_PORT.isEmpty() ? NLS_URL + NLS_LOGIN_URN
 			: NLS_URL + ":" + NLS_PORT + NLS_LOGIN_URN;
 	private String NLS_LOGOUT_URN = System.getenv("NLS_LOGOUT_URN"); //"/nls3/NCLogout.jsp";
-	private String NLS_LOGOUT_URL=
+	private String NLS_LOGOUT_URL =
 			NLS_PORT.isEmpty() ? NLS_URL + NLS_LOGOUT_URN
 			: NLS_URL + ":" + NLS_PORT + NLS_LOGOUT_URN;
 	private String NLS_ERROR_URL =
@@ -55,7 +55,7 @@
 //		CookieManager.setSameSiteStatus(false);
 
 		PROVIDER_LIST.add(System.getenv("NLS_URL").substring(8)); //remove https prefix
-		SECode.setCookiePadding("_V42");
+//		SECode.setCookiePadding("_V42");
 	}
 	public String getSsoId(HttpServletRequest request) {
 		String sso_id = null;

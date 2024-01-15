@@ -45,7 +45,7 @@
 
 		try{
 			NXUserInfo userInfo = getUserInfo(sso_id);
-			logger.info("Receive userInfo from demon server.");
+			logger.info("Receive userInfo from daemon server.");
 			logger.info("userInfo : {}", userInfo.toString());
 			NXUserRepository.getInstance().addUserInfo(sso_id, userInfo);
 		}catch(Exception e){
