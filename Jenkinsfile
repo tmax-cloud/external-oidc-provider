@@ -9,6 +9,10 @@ node {
     def githubUserToken = "${params.githubUserToken}"
     def userEmail = "seongmin_lee2@tmax.co.kr"
 
+    environment {
+        dockerCredential = credentials('docker-hub-credentials')
+    }
+
     stage('git pull from external-oidc-provider') {
     	git branch: "${params.buildBranch}",
         credentialsId: '${githubUserName}',
@@ -25,16 +29,20 @@ node {
     }
 
     stage('Dockerfile image build & push'){
-        if(type == 'distribution') {
-           sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:${imageTag} ."
-           sh "sudo docker tag ${imageRegistry}/external-oidc-provider:${imageTag} ${imageRegistry}/external-oidc-provider:latest"
-           sh "sudo docker push ${imageRegistry}/external-oidc-provider:${imageTag}"
-           sh "sudo docker push ${imageRegistry}/external-oidc-provider:latest"
-           sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:${imageTag}"
-        } else if(type == 'test'){
-                sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:b${testVersion} ."
-                sh "sudo docker push ${imageRegistry}/external-oidc-provider:b${testVersion}"
-                sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:b${testVersion}"
+        withDockerRegistry([ credentialsId: "dockercred", url: "https://registry.hub.docker.com" ]) {
+
+            if(type == 'distribution') {
+               sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:${imageTag} ."
+               sh "sudo docker tag ${imageRegistry}/external-oidc-provider:${imageTag} ${imageRegistry}/external-oidc-provider:latest"
+               sh "sudo docker push ${imageRegistry}/external-oidc-provider:${imageTag}"
+               sh "sudo docker push ${imageRegistry}/external-oidc-provider:latest"
+               sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:${imageTag}"
+            } else if(type == 'test'){
+                    sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:b${testVersion} ."
+                    sh "sudo docker push ${imageRegistry}/external-oidc-provider:b${testVersion}"
+                    sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:b${testVersion}"
+            }
+
         }
     }
 
