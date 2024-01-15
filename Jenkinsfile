@@ -29,20 +29,16 @@ node {
     }
 
     stage('Dockerfile image build & push'){
-        withDockerRegistry([ credentialsId: "dockercred", url: "https://registry.hub.docker.com" ]) {
-
-            if(type == 'distribution') {
-               sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:${imageTag} ."
-               sh "sudo docker tag ${imageRegistry}/external-oidc-provider:${imageTag} ${imageRegistry}/external-oidc-provider:latest"
-               sh "sudo docker push ${imageRegistry}/external-oidc-provider:${imageTag}"
-               sh "sudo docker push ${imageRegistry}/external-oidc-provider:latest"
-               sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:${imageTag}"
-            } else if(type == 'test'){
-                    sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:b${testVersion} ."
-                    sh "sudo docker push ${imageRegistry}/external-oidc-provider:b${testVersion}"
-                    sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:b${testVersion}"
-            }
-
+        if(type == 'distribution') {
+           sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:${imageTag} ."
+           sh "sudo docker tag ${imageRegistry}/external-oidc-provider:${imageTag} ${imageRegistry}/external-oidc-provider:latest"
+           sh "sudo docker push ${imageRegistry}/external-oidc-provider:${imageTag}"
+           sh "sudo docker push ${imageRegistry}/external-oidc-provider:latest"
+           sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:${imageTag}"
+        } else if(type == 'test'){
+                sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:b${testVersion} ."
+                sh "sudo docker push ${imageRegistry}/external-oidc-provider:b${testVersion}"
+                sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:b${testVersion}"
         }
     }
 
