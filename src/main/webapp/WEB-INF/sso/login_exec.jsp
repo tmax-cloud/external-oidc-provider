@@ -12,7 +12,6 @@
 	String sso_id = getSsoId(request);
 	logger.info("*================== [login_exec.jsp]  sso_id : {}", sso_id);
 
-//	getEamSessionCheckAndAgentVaild(request, response);
 	if (sso_id == null || sso_id.equals("")) {
 		logger.info("initialize new login process");
 		CookieManager.addCookie("hyperauth_state", (String)request.getAttribute("state"), SSO_DOMAIN, response);
@@ -22,7 +21,7 @@
 	} else {
 		//4.쿠키 유효성 확인 :0(정상)
 		logger.info("SsoId verified");
-		String retCode = getEamSessionCheck( request,  response);
+		String retCode = getEamSessionCheckAndAgentVaild( request,  response);
 		logger.info("*================== [retCode]  retCode : {}", retCode);
 
 		if(!retCode.equals("0")){
@@ -37,22 +36,27 @@
 		if(EAM_ID == null || EAM_ID.equals("")) {
 			session.setAttribute("SSO_ID", sso_id);
 		}
-		System.out.println("SSO 인증 성공!!");
-		//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
-//		boolean ssoCheck = CheckExistUser(sso_id);
-//		System.out.println("*================== ["+sso_id +"exist ] : " + ssoCheck );
-//		String email = getUserEmail(sso_id);
+		logger.info("SSO Authentication verified!!");
 
-		try{
-			NXUserInfo userInfo = getUserInfo(sso_id);
-			logger.info("Receive userInfo from daemon server.");
-			logger.info("userInfo : {}", userInfo.toString());
-			NXUserRepository.getInstance().addUserInfo(sso_id, userInfo);
-		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("Failed to get user info from demon server. Skip userinfo setting.");
+		//6.SSOID로 사용자 정보 조회
+		boolean ssoCheck = checkExistUser(sso_id);
+		logger.info("*================== ["+sso_id +"exist ] : " + ssoCheck );
+		if(ssoCheck){
+			try{
+				NXUserInfo userInfo = getUserInfo(sso_id);
+				logger.info("Receive userInfo from daemon server.");
+				logger.info("userInfo : {}", userInfo.toString());
+				//임시로 user 정보 저장, OIDC user profile 정보 조회시 사용 후 바로 삭제
+				NXUserRepository.getInstance().addUserInfo(sso_id, userInfo);
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.error("Failed to get user info from daemon server. Skip userinfo setting.");
+			}
+		}else{
+			logger.info("Cannot check user exist, or user is not exist. Skip userinfo setting.");
 		}
 
+		//7.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 		String state = (request.getAttribute("state")!= null)?  (String)request.getAttribute("state") : CookieManager.getCookieValue("hyperauth_state",request);
 		String hyperauth_redirect_uri = (request.getAttribute("redirect_uri")!= null)?  (String)request.getAttribute("redirect_uri") : CookieManager.getCookieValue("hyperauth_redirect_uri",request);
 

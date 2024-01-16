@@ -33,7 +33,6 @@ public class UserController {
             NXUserRepository.getInstance().removeUserInfo(access_token);
         }catch (NullPointerException e){
             logger.error(e.getMessage());
-            logger.error("No userinfo in NXuserRepository. Skip getting detailed user info.");
         }
         logger.info("userId: " + userForm.getId());
         logger.info("username: " + userForm.getUsername());

@@ -44,9 +44,11 @@
 
 		List<String> serverUrlList = new ArrayList<String>();
 		if(ND_URL1 != null && !ND_URL1.equals("")){
+			System.out.println("ND_URL1 : " + ND_URL1 + " is added to serverUrlList");
 			serverUrlList.add(ND_URL1);
 		}
 		if(ND_URL2 != null && !ND_URL2.equals("")){
+			System.out.println("ND_URL2 : " + ND_URL2 + " is added to serverUrlList");
 			serverUrlList.add(ND_URL2);
 		}
 
@@ -113,18 +115,30 @@
 		response.sendRedirect(NLS_ERROR_URL + "?errorCode=" + error_code);
 	}
 
-	public NXUserInfo getUserInfo (String userid) {
+	public NXUserInfo getUserInfo (String userid) throws Exception{
+		NXUserAPI userAPI = new NXUserAPI(context);
+		NXUserInfo userInfo =  userAPI.getUserInfo(userid);
+		return userInfo;
+	}
+
+	public String getUserEmail (String userid) {
+
+		String userEmail = null;
+
 		NXUserAPI userAPI = new NXUserAPI(context);
 		NXUserInfo userInfo = null;
 		try{
 			userInfo = userAPI.getUserInfo(userid);
-		}catch (APIException e){
+		}catch (Exception e){
 			e.printStackTrace();
 		}
-		return userInfo;
+
+		userEmail =  userInfo.getEmail();
+
+		return userEmail;
 	}
 
-	public boolean CheckExistUser(String userid){
+	public boolean checkExistUser(String userid){
 		NXUserAPI userAPI = new NXUserAPI(context);
 		boolean flag = false;
 		try {
