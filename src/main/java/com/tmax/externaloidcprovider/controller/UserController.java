@@ -3,7 +3,7 @@ package com.tmax.externaloidcprovider.controller;
 import com.initech.eam.api.NXUserInfo;
 import com.tmax.externaloidcprovider.constant.OidcPath;
 import com.tmax.externaloidcprovider.form.UserForm;
-import com.tmax.externaloidcprovider.global.NXUserRepository;
+import com.tmax.externaloidcprovider.global.OIDCUserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +27,10 @@ public class UserController {
         userForm.setUsername(access_token);
 
         try{
-            NXUserInfo userInfo = NXUserRepository.getInstance().getUserInfo(access_token);
+            NXUserInfo userInfo = OIDCUserRepository.getInstance().getUserInfo(access_token);
             userForm.setEmail(userInfo.getEmail());
             userForm.setFirstName(userInfo.getName());
-            NXUserRepository.getInstance().removeUserInfo(access_token);
+            OIDCUserRepository.getInstance().removeUserInfo(access_token);
         }catch (NullPointerException e){
             logger.error(e.getMessage());
         }

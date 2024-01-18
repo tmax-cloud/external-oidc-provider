@@ -1,7 +1,7 @@
 <%@ include file="./config.jsp" %>
 <%@ page import="org.apache.logging.log4j.LogManager" %>
 <%@ page import="org.apache.logging.log4j.Logger" %>
-<%@ page import="com.tmax.externaloidcprovider.global.NXUserRepository" %>
+<%@ page import="com.tmax.externaloidcprovider.global.OIDCUserRepository" %>
 <%@ page language="java" contentType="text/html;charset=EUC-KR" %>
 <%!
 	private Logger logger = LogManager.getLogger();
@@ -21,7 +21,7 @@
 	} else {
 		//4.쿠키 유효성 확인 :0(정상)
 		logger.info("SsoId verified");
-		String retCode = getEamSessionCheckAndAgentVaild( request,  response);
+		String retCode = getEamSessionCheckAndAgentVaild(request,  response);
 		logger.info("*================== [retCode]  retCode : {}", retCode);
 
 		if(!retCode.equals("0")){
@@ -45,9 +45,10 @@
 			try{
 				NXUserInfo userInfo = getUserInfo(sso_id);
 				logger.info("Receive userInfo from daemon server.");
-				logger.info("userInfo : {}", userInfo.toString());
-				//임시로 user 정보 저장, OIDC user profile 정보 조회시 사용 후 바로 삭제
-				NXUserRepository.getInstance().addUserInfo(sso_id, userInfo);
+				logger.info("userInfo [ userId : {}, username : {}, userEmail : {} enabled : {}", userInfo.getUserId(), userInfo.getName(), userInfo.getEmail(), userInfo.getEnable());
+				logger.info("userInfo : {} ", userInfo.toString());
+				//임시로 user 정보를 메모리에 저장, OIDC user profile 정보 조회시 사용 후 바로 삭제
+				OIDCUserRepository.getInstance().addUserInfo(sso_id, userInfo);
 			}catch(Exception e){
 				e.printStackTrace();
 				logger.error("Failed to get user info from daemon server. Skip userinfo setting.");

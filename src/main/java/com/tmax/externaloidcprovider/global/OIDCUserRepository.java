@@ -5,12 +5,12 @@ import com.initech.eam.api.NXUserInfo;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NXUserRepository {
+public class OIDCUserRepository {
 
-    private NXUserRepository() {}
-    private static final NXUserRepository instance = new NXUserRepository();
+    private OIDCUserRepository() {}
+    private static final OIDCUserRepository instance = new OIDCUserRepository();
 
-    public static NXUserRepository getInstance(){
+    public static OIDCUserRepository getInstance(){
         return instance;
     }
 
