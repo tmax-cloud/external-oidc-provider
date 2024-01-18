@@ -14,8 +14,27 @@
 
 	if (sso_id == null || sso_id.equals("")) {
 		logger.info("initialize new login process");
-		CookieManager.addCookie("hyperauth_state", (String)request.getAttribute("state"), SSO_DOMAIN, response);
-		CookieManager.addCookie("hyperauth_redirect_uri", (String)request.getAttribute("redirect_uri"), SSO_DOMAIN, response);
+
+		String state;
+		String hyperauth_redirect_uri;
+
+		if(request.getAttribute("state") == null || request.getAttribute("redirect_uri") == null){
+			state = CookieManager.getCookieValue("hyperauth_state",request);
+			hyperauth_redirect_uri = CookieManager.getCookieValue("hyperauth_redirect_uri",request);
+		}else{
+			state = (String)request.getAttribute("state");
+			hyperauth_redirect_uri = (String)request.getAttribute("redirect_uri");
+
+			CookieManager.addCookie("hyperauth_state", state, SSO_DOMAIN, response);
+			CookieManager.addCookie("hyperauth_redirect_uri", hyperauth_redirect_uri, SSO_DOMAIN, response);
+		}
+
+		if(state == null || hyperauth_redirect_uri == null){
+			logger.info("state or redirect_uri is null");
+			goErrorPage(response, 400);
+			return;
+		}
+
 		goLoginPage(response); //
 		return;
 	} else {
