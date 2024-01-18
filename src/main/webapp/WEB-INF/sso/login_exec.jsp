@@ -40,7 +40,7 @@
 	} else {
 		//4.쿠키 유효성 확인 :0(정상)
 		logger.info("SsoId verified");
-		String retCode = getEamSessionCheckAndAgentVaild(request,  response);
+		String retCode = getEamSessionCheck(request,  response);
 		logger.info("*================== [retCode]  retCode : {}", retCode);
 
 		if(!retCode.equals("0")){
