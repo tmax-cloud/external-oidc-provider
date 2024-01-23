@@ -29,7 +29,8 @@ public class UserController {
         try{
             NXUserInfo userInfo = OIDCUserRepository.getInstance().getUserInfo(access_token);
             userForm.setEmail(userInfo.getEmail());
-            userForm.setFirstName(userInfo.getName());
+            //FIXME : 향후 요건 있을 시 userInfo에서 가져오도록 수정, (fullName -> firstName, lastName 으로 parsing 필요)
+//            userForm.setFirstName(userInfo.getName());
             OIDCUserRepository.getInstance().removeUserInfo(access_token);
         }catch (NullPointerException e){
             logger.error(e.getMessage());
