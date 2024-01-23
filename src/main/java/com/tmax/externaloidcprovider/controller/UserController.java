@@ -39,10 +39,6 @@ public class UserController {
         logger.info("email: " + userForm.getEmail());
         logger.info("firstName: " + userForm.getFirstName());
 
-        logger.info("set test user info");
-//        userForm.setLastName("kim");
-        userForm.setFirstName("soohwan");
-        userForm.setEmail("tmax.co.kr");
 
         return userForm;
     }

@@ -40,13 +40,19 @@
 	} else {
 		//4.쿠키 유효성 확인 :0(정상)
 		logger.info("SsoId verified");
-		String retCode = getEamSessionCheck(request,  response);
-		logger.info("*================== [retCode]  retCode : {}", retCode);
-
-		if(!retCode.equals("0")){
-			logger.info("invalid cookie with retCode : {}" + retCode);
-			goErrorPage(response, Integer.parseInt(retCode));
-			return;
+		String retCode = getEamSessionCheckAndAgentVaild(request,  response);
+		if(retCode.equals("0")){
+			logger.info("Complete agent verification with daemon server. [retCode : {}]", retCode);
+		}else{
+			logger.error("Unable to verify agent with daemon server. Skip agent verification and try to validate cookie only. [retCode : {}]", retCode);
+			retCode = getEamSessionCheck(request,  response);
+			if(retCode.equals("0")){
+				logger.info("Valid cookie. [retCode : {}]", retCode);
+			}else{
+				logger.error("invalid cookie. retCode : {}" + retCode);
+				goErrorPage(response, Integer.parseInt(retCode));
+				return;
+			}
 		}
 
 		//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
