@@ -11,4 +11,8 @@ public class UserForm {
     private String username;
     @Nullable
     private String email;
+    @Nullable
+    private String firstName;
+    @Nullable
+    private String lastName;
 }

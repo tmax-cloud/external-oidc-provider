@@ -23,7 +23,7 @@
 			NLS_PORT.isEmpty() ? NLS_URL + NLS_LOGIN_URN
 			: NLS_URL + ":" + NLS_PORT + NLS_LOGIN_URN;
 	private String NLS_LOGOUT_URN = System.getenv("NLS_LOGOUT_URN"); //"/nls3/NCLogout.jsp";
-	private String NLS_LOGOUT_URL=
+	private String NLS_LOGOUT_URL =
 			NLS_PORT.isEmpty() ? NLS_URL + NLS_LOGOUT_URN
 			: NLS_URL + ":" + NLS_PORT + NLS_LOGOUT_URN;
 	private String NLS_ERROR_URL =
@@ -44,9 +44,11 @@
 
 		List<String> serverUrlList = new ArrayList<String>();
 		if(ND_URL1 != null && !ND_URL1.equals("")){
+			System.out.println("ND_URL1 : " + ND_URL1 + " is added to serverUrlList");
 			serverUrlList.add(ND_URL1);
 		}
 		if(ND_URL2 != null && !ND_URL2.equals("")){
+			System.out.println("ND_URL2 : " + ND_URL2 + " is added to serverUrlList");
 			serverUrlList.add(ND_URL2);
 		}
 
@@ -113,27 +115,36 @@
 		response.sendRedirect(NLS_ERROR_URL + "?errorCode=" + error_code);
 	}
 
-	public String getUserEmail (String userid) { //FIXME
+	public NXUserInfo getUserInfo (String userid) throws Exception{
+		NXUserAPI userAPI = new NXUserAPI(context);
+		NXUserInfo userInfo =  userAPI.getUserInfo(userid);
+		return userInfo;
+	}
+
+	public String getUserEmail (String userid) {
+
 		String userEmail = null;
+
 		NXUserAPI userAPI = new NXUserAPI(context);
 		NXUserInfo userInfo = null;
 		try{
 			userInfo = userAPI.getUserInfo(userid);
-
-		}catch (APIException e){
+		}catch (Exception e){
 			e.printStackTrace();
 		}
+
 		userEmail =  userInfo.getEmail();
+
 		return userEmail;
 	}
 
-	public boolean CheckExistUser(String userid){
+	public boolean checkExistUser(String userid){
 		NXUserAPI userAPI = new NXUserAPI(context);
 		boolean flag = false;
 		try {
 			flag = userAPI.existUser(userid);
 		} catch (APIException e) {
-			e.printStackTrace();
+			logger.error("Unable to check User : {}", e.getMessage());
 		}
 		return flag;
 	}

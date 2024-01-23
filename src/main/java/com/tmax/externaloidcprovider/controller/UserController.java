@@ -1,7 +1,9 @@
 package com.tmax.externaloidcprovider.controller;
 
+import com.initech.eam.api.NXUserInfo;
 import com.tmax.externaloidcprovider.constant.OidcPath;
 import com.tmax.externaloidcprovider.form.UserForm;
+import com.tmax.externaloidcprovider.global.OIDCUserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,20 +20,26 @@ public class UserController {
     @GetMapping
     public UserForm user(@RequestParam(required = false) String access_token){
 
-        logger.info("access_token: " + access_token);
+        logger.info("userId as access_token : " + access_token);
 
         UserForm userForm = new UserForm();
         userForm.setId(access_token);
         userForm.setUsername(access_token);
 
-        /* Disable email information.
-         to use this, should disable login with email and enable duplicate email
-         in keycloak realm login setting.
-         */
-
+        try{
+            NXUserInfo userInfo = OIDCUserRepository.getInstance().getUserInfo(access_token);
+            userForm.setEmail(userInfo.getEmail());
+            //FIXME : 향후 요건 있을 시 userInfo에서 가져오도록 수정, (fullName -> firstName, lastName 으로 parsing 필요)
+//            userForm.setFirstName(userInfo.getName());
+            OIDCUserRepository.getInstance().removeUserInfo(access_token);
+        }catch (NullPointerException e){
+            logger.error(e.getMessage());
+        }
         logger.info("userId: " + userForm.getId());
         logger.info("username: " + userForm.getUsername());
         logger.info("email: " + userForm.getEmail());
+        logger.info("firstName: " + userForm.getFirstName());
+
 
         return userForm;
     }
