@@ -30,11 +30,12 @@ node {
 
     stage('Dockerfile image build & push'){
         if(type == 'distribution') {
-           sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:${imageTag} ."
-           sh "sudo docker tag ${imageRegistry}/external-oidc-provider:${imageTag} ${imageRegistry}/external-oidc-provider:latest"
-           sh "sudo docker push ${imageRegistry}/external-oidc-provider:${imageTag}"
-           sh "sudo docker push ${imageRegistry}/external-oidc-provider:latest"
-           sh "sudo docker rmi ${imageRegistry}/external-oidc-provider:${imageTag}"
+           sh" sudo docker login hyperregistry.tmaxcloud.org -u admin -p admin"
+           sh "sudo docker build --tag hyperregistry.tmaxcloud.org/hyperauth/external-oidc-provider:${imageTag} ."
+           sh "sudo docker tag hyperregistry.tmaxcloud.org/hyperauth/external-oidc-provider:${imageTag} hyperregistry.tmaxcloud.org/hyperauth/external-oidc-provider:latest"
+           sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/external-oidc-provider:${imageTag}"
+           sh "sudo docker push hyperregistry.tmaxcloud.org/hyperauth/external-oidc-provider:latest"
+           sh "sudo docker rmi hyperregistry.tmaxcloud.org/hyperauth/external-oidc-provider:${imageTag}"
         } else if(type == 'test'){
                 sh "sudo docker build --tag ${imageRegistry}/external-oidc-provider:b${testVersion} ."
                 sh "sudo docker push ${imageRegistry}/external-oidc-provider:b${testVersion}"
