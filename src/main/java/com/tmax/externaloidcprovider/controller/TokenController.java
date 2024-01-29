@@ -1,5 +1,6 @@
 package com.tmax.externaloidcprovider.controller;
 
+import com.google.gson.JsonObject;
 import com.tmax.externaloidcprovider.constant.OidcPath;
 import com.tmax.externaloidcprovider.form.TokenForm;
 import org.apache.logging.log4j.LogManager;
@@ -28,11 +29,17 @@ public class TokenController {
         logger.info("client_id: " + client_id);
         logger.info("client_secret: " + client_secret);
 
+        JsonObject accessToken = new JsonObject();
+        accessToken.addProperty("user_id", code);
+
         TokenForm tokenForm = new TokenForm();
-        tokenForm.setAccess_token(code); //임시로 이메일 전달을 위해
+        tokenForm.setAccess_token(accessToken.toString()); //임시로 이메일 전달을 위해
         tokenForm.setToken_type("bearer");
-        tokenForm.setExpires_in(43261566);
-        tokenForm.setRefresh_token("refresh_token");
+        tokenForm.setExpires_in(99999999);
+        tokenForm.setRefresh_token(accessToken.toString());
+        tokenForm.setRefresh_expires_in(99999999);
+        tokenForm.setScope("read write");
+
         return tokenForm;
     }
 }
