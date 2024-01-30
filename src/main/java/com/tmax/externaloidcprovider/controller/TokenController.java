@@ -39,6 +39,7 @@ public class TokenController {
         tokenForm.setRefresh_token(accessToken.toString());
         tokenForm.setRefresh_expires_in(99999999);
         tokenForm.setScope("read write");
+        tokenForm.setId_token(accessToken.toString());
 
         return tokenForm;
     }
