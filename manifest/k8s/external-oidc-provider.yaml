@@ -97,6 +97,15 @@ spec:
               serviceName: external-oidc-provider
               servicePort: 8080
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: external-keystore-password
+  namespace: hyperauth
+type: Opaque
+data:
+  password: dG1heEAyMw==
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -116,9 +125,15 @@ spec:
   #    - 192.168.9.12
   dnsNames:
     # Set Domain Name
-    - tmax.initech.com
+    - tmax.sso.initech.com
     - tmax-cloud
   issuerRef:
     kind: ClusterIssuer
     group: cert-manager.io
     name: tmaxcloud-issuer
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        key: password
+        name: external-keystore-password
