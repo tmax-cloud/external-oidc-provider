@@ -35,7 +35,7 @@ public class UserController {
             logger.error(e.getMessage());
         }
         logger.info("userId: " + userForm.getId());
-        logger.info("username: " + userForm.getUsername());
+//        logger.info("username: " + userForm.getUsername());
         logger.info("email: " + userForm.getEmail());
         logger.info("firstName: " + userForm.getFirstName());
 
