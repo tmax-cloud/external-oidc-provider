@@ -29,7 +29,7 @@ public class UserController {
         try{
             NXUserInfo userInfo = OIDCUserRepository.getInstance().getUserInfo(access_token);
             userForm.setEmail(userInfo.getEmail());
-            userForm.setFirstName(userInfo.getName());
+            userForm.setLastName(userInfo.getName());
             OIDCUserRepository.getInstance().removeUserInfo(access_token);
         }catch (NullPointerException e){
             logger.error(e.getMessage());
@@ -37,7 +37,7 @@ public class UserController {
         logger.info("userId: " + userForm.getId());
 //        logger.info("username: " + userForm.getUsername());
         logger.info("email: " + userForm.getEmail());
-        logger.info("firstName: " + userForm.getFirstName());
+        logger.info("firstName: " + userForm.getLastName());
 
 
         return userForm;

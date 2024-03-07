@@ -71,21 +71,25 @@
 //				NXUserInfo userInfo = getUserInfo(sso_id);
 				logger.info("Receive userInfo from daemon server.");
 
-				List rawData = new ArrayList();
+				List rawData = new ArrayList(1);
 				List<String> dummyUserInfo = new ArrayList<String>(20);
-				dummyUserInfo.set(0,sso_id);
-				dummyUserInfo.set(1,"T");
-				dummyUserInfo.set(2,"±èÇö¿ì");
-				dummyUserInfo.set(3,"test@initech.com");
-				dummyUserInfo.set(4,"abcdefg");
-				dummyUserInfo.set(5,"2019-0101");
-				dummyUserInfo.set(6,"2025-01-01");
-				dummyUserInfo.set(7,"192.168.9.12");
-				dummyUserInfo.set(8,"2020-01-01");
-				dummyUserInfo.set(9,"ADMIN");
-				dummyUserInfo.set(10,"T");
 
-				rawData.set(0, dummyUserInfo);
+				//replace to set to add
+
+				dummyUserInfo.add(0,sso_id);
+				dummyUserInfo.add(1,"T");
+				dummyUserInfo.add(2,"±èÇö¿ì");
+				dummyUserInfo.add(3,"test@initech.com");
+				dummyUserInfo.add(4,"abcdefg");
+				dummyUserInfo.add(5,"2019-0101");
+				dummyUserInfo.add(6,"2025-01-01");
+				dummyUserInfo.add(7,"192.168.9.12");
+				dummyUserInfo.add(8,"2020-01-01");
+				dummyUserInfo.add(9,"ADMIN");
+				dummyUserInfo.add(10,"T");
+				dummyUserInfo.add(11,"T");
+
+				rawData.add(0, dummyUserInfo);
 				NXUserInfo userInfo = new NXUserInfo(rawData);
 
 				logger.info("userInfo [ userId : {}, username : {}, userEmail : {} enabled : {}", userInfo.getUserId(), userInfo.getName(), userInfo.getEmail(), userInfo.getEnable());
