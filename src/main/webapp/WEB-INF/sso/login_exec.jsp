@@ -66,21 +66,31 @@
 		//6.SSOID로 사용자 정보 조회
 		boolean ssoCheck = checkExistUser(sso_id);
 		logger.info("*================== ["+sso_id +"exist ] : " + ssoCheck );
-		if(ssoCheck){
+//		if(ssoCheck){
 			try{
-				NXUserInfo userInfo = getUserInfo(sso_id);
+//				NXUserInfo userInfo = getUserInfo(sso_id);
 				logger.info("Receive userInfo from daemon server.");
+
+				List<String> dummyUserInfo = new ArrayList<String>();
+				dummyUserInfo.set(1,sso_id);
+				dummyUserInfo.set(2,"T");
+				dummyUserInfo.set(3,"김현우");
+				dummyUserInfo.set(4,"test@initech.com");
+				dummyUserInfo.set(5,"abcdefg");
+				dummyUserInfo.set(6,"2019-0101");
+				dummyUserInfo.set(7,"2025-01-01");
+				NXUserInfo userInfo = new NXUserInfo(dummyUserInfo);
+
 				logger.info("userInfo [ userId : {}, username : {}, userEmail : {} enabled : {}", userInfo.getUserId(), userInfo.getName(), userInfo.getEmail(), userInfo.getEnable());
-				logger.info("userInfo : {} ", userInfo.toString());
 				//임시로 user 정보를 메모리에 저장, OIDC user profile 정보 조회시 사용 후 바로 삭제
 				OIDCUserRepository.getInstance().addUserInfo(sso_id, userInfo);
 			}catch(Exception e){
 				e.printStackTrace();
 				logger.error("Failed to get user info from daemon server. Skip userinfo setting.");
 			}
-		}else{
-			logger.info("Cannot check user exist, or user is not exist. Skip userinfo setting.");
-		}
+//		}else{
+//			logger.info("Cannot check user exist, or user is not exist. Skip userinfo setting.");
+//		}
 
 		//7.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 		String state = (request.getAttribute("state")!= null)?  (String)request.getAttribute("state") : CookieManager.getCookieValue("hyperauth_state",request);
