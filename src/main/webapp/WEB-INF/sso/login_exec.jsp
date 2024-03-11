@@ -69,9 +69,16 @@
 		if(ssoCheck){
 			try{
 				NXUserInfo userInfo = getUserInfo(sso_id);
+
+				if(AUTO_EMAIL_COMPLETION){
+					logger.info("Auto email completion is enabled. Complete email with sso_id.");
+					String parsedSsoId = sso_id.charAt(0) == '0' ? sso_id.substring(1) : sso_id;
+					String autoEmailCompleted = AUTO_EMAIL_FORMAT_PREFIX + parsedSsoId + AUTO_EMAIL_FORMAT_SUFFIX;
+					userInfo.setEmail(autoEmailCompleted);
+				}
+
 				logger.info("Receive userInfo from daemon server.");
 				logger.info("userInfo [ userId : {}, username : {}, userEmail : {} enabled : {}", userInfo.getUserId(), userInfo.getName(), userInfo.getEmail(), userInfo.getEnable());
-				logger.info("userInfo : {} ", userInfo.toString());
 				//임시로 user 정보를 메모리에 저장, OIDC user profile 정보 조회시 사용 후 바로 삭제
 				OIDCUserRepository.getInstance().addUserInfo(sso_id, userInfo);
 			}catch(Exception e){
