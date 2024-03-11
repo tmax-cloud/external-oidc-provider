@@ -66,6 +66,14 @@ spec:
               value: "https://ndtest.initech.com:5481"
             - name: SSO_DOMAIN     # Set Https Protocols
               value: ".initech.com"
+
+            # 신한라이프 전용 이메일 자동완성 기능
+            - name: AUTO_EMAIL_COMPLETION        # true / false
+              value: "true"
+            - name: AUTO_EMAIL_FORMAT_PREFIX    # email prefix
+              value: "nl"
+            - name: AUTO_EMAIL_FORMAT_SUFFIX    # email suffix
+              value: "@swing.shinhan.com"
           ports:
             - name: http
               containerPort: 8080
