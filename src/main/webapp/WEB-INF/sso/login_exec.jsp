@@ -79,7 +79,7 @@
 				dummyUserInfo.add(0,sso_id);
 				dummyUserInfo.add(1,"T");
 				dummyUserInfo.add(2,"±èÇö¿ì");
-				dummyUserInfo.add(3,"test@initech.com");
+				dummyUserInfo.add(3,"test");
 				dummyUserInfo.add(4,"abcdefg");
 				dummyUserInfo.add(5,"2019-0101");
 				dummyUserInfo.add(6,"2025-01-01");
@@ -88,6 +88,13 @@
 				dummyUserInfo.add(9,"ADMIN");
 				dummyUserInfo.add(10,"T");
 				dummyUserInfo.add(11,"T");
+
+				if(AUTO_EMAIL_COMPLETION){
+					String dummySSOID = "0000" + sso_id;
+					String parsedSsoId = dummySSOID.charAt(0) == '0' ? dummySSOID.substring(1) : dummySSOID;
+					String autoEmailCompleted = AUTO_EMAIL_FORMAT_PREFIX + parsedSsoId + AUTO_EMAIL_FORMAT_SUFFIX;
+					dummyUserInfo.add(3,autoEmailCompleted);
+				}
 
 				rawData.add(0, dummyUserInfo);
 				NXUserInfo userInfo = new NXUserInfo(rawData);

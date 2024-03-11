@@ -39,7 +39,11 @@
 	private String SSO_DOMAIN = System.getenv("SSO_DOMAIN"); //".initech.com";
 	private static final int timeout = 15000;
 	private static NXContext context = null;
-  
+
+	private static boolean AUTO_EMAIL_COMPLETION = System.getenv("AUTO_EMAIL_COMPLETION").equalsIgnoreCase("true") ? true : false;
+	private static String AUTO_EMAIL_FORMAT_PREFIX = System.getenv("AUTO_EMAIL_FORMAT_PREFIX");
+	private static String AUTO_EMAIL_FORMAT_SUFFIX = System.getenv("AUTO_EMAIL_FORMAT_SUFFIX");
+
 	static{
 
 		List<String> serverUrlList = new ArrayList<String>();
