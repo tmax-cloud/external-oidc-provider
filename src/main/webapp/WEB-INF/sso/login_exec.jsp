@@ -71,6 +71,7 @@
 				NXUserInfo userInfo = getUserInfo(sso_id);
 
 				if(AUTO_EMAIL_COMPLETION){
+					logger.info("Auto email completion is enabled. Complete email with sso_id.");
 					String parsedSsoId = sso_id.charAt(0) == '0' ? sso_id.substring(1) : sso_id;
 					String autoEmailCompleted = AUTO_EMAIL_FORMAT_PREFIX + parsedSsoId + AUTO_EMAIL_FORMAT_SUFFIX;
 					userInfo.setEmail(autoEmailCompleted);
